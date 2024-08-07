@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class BookController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String showEditBookForm(@PathVariable Long id, Model model) {
+	public String showEditBookForm(@PathVariable("id") Long id, Model model) {
 		Book book = this.bookService.getBookById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + id));
 		model.addAttribute("book", book);
@@ -50,9 +51,15 @@ public class BookController {
 	}
 
 	@PostMapping("/{id}")
-	public String updateBook(@PathVariable Long id, @ModelAttribute Book book) {
+	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book book) {
 		book.setId(id);
 		this.bookService.saveBook(book);
+		return "redirect:/books";
+	}
+
+	@DeleteMapping("/{id}")
+	public String deleteBook(@PathVariable("id") Long id) {
+		this.bookService.deleteBookById(id);
 		return "redirect:/books";
 	}
 }
