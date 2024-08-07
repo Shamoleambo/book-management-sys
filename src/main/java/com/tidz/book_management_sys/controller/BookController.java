@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tidz.book_management_sys.entity.Book;
@@ -30,5 +32,11 @@ public class BookController {
 		Book book = new Book();
 		model.addAttribute("book", book);
 		return "new_book";
+	}
+
+	@PostMapping
+	public String saveBook(@ModelAttribute("book") Book book) {
+		this.bookService.saveBook(book);
+		return "redirect:/books";
 	}
 }
