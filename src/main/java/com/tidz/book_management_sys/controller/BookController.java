@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,5 +39,13 @@ public class BookController {
 	public String saveBook(@ModelAttribute("book") Book book) {
 		this.bookService.saveBook(book);
 		return "redirect:/books";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String showEditBookForm(@PathVariable Long id, Model model) {
+		Book book = this.bookService.getBookById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + id));
+		model.addAttribute("book", book);
+		return "edit_book";
 	}
 }
