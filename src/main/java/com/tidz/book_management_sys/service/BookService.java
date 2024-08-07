@@ -1,6 +1,7 @@
 package com.tidz.book_management_sys.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,5 +17,9 @@ public class BookService {
 
 	public List<Book> getAllBooks() {
 		return this.bookRepo.findAll();
+	}
+
+	public Optional<Book> getBookById(Long id) {
+		return this.bookRepo.findById(id);
 	}
 }
