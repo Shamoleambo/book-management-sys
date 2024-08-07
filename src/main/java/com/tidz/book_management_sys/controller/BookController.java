@@ -24,4 +24,11 @@ public class BookController {
 		model.addAttribute("books", books);
 		return "books";
 	}
+
+	@GetMapping("/new")
+	public String showNewBookForm(Model model) {
+		Book book = new Book();
+		model.addAttribute("book", book);
+		return "new_book";
+	}
 }
